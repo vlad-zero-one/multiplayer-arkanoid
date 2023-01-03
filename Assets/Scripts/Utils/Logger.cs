@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using DependencyInjection;
 
 public class Logger : MonoBehaviour
 {
@@ -15,6 +12,8 @@ public class Logger : MonoBehaviour
 
     public void Log(string message)
     {
+        if (this == null || gameObject == null || logText == null) return;
+
         Debug.Log(message);
 
         logText.text += "\n";

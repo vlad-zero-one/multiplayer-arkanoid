@@ -4,12 +4,17 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using DependencyInjection;
+using UniRx;
 
 namespace Game
 {
-    public class ConnectionManager : IMatchmakingCallbacks, IConnectionCallbacks
+    public class ConnectionManager : IMatchmakingCallbacks, IConnectionCallbacks, IInRoomCallbacks
     {
         private Logger logger;
+
+        public BoolReactiveProperty isConnectedToMaster = new BoolReactiveProperty(false);
+
+        public BoolReactiveProperty isSecondPlayerConnected = new BoolReactiveProperty(false);
 
         public ConnectionManager() 
         {
@@ -24,6 +29,23 @@ namespace Game
             logger = DI.Get<Logger>();
         }
 
+        public void JoinOrCreateRoom()
+        {
+            var roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 2;
+            roomOptions.IsVisible = true;
+            roomOptions.IsOpen = true;
+
+            PhotonNetwork.JoinRandomOrCreateRoom(expectedMaxPlayers: 2, roomOptions: roomOptions);
+        }
+
+        private void CheckPlayers()
+        {
+            isSecondPlayerConnected.Value = PhotonNetwork.CurrentRoom.PlayerCount == 2;
+        }
+
+        #region Interface Implementations
+
         public void OnConnected()
         {
             logger.Log($"Player {PhotonNetwork.LocalPlayer.NickName} is connected");
@@ -33,12 +55,7 @@ namespace Game
         {
             logger.Log($"Player {PhotonNetwork.LocalPlayer.NickName} is connected to master");
 
-            var roomOptions = new RoomOptions();
-            roomOptions.MaxPlayers = 2;
-            roomOptions.IsVisible = true;
-            roomOptions.IsOpen = true;
-
-            PhotonNetwork.JoinRandomOrCreateRoom(expectedMaxPlayers: 2, roomOptions: roomOptions);
+            isConnectedToMaster.Value = true;
         }
 
         public void OnCreatedRoom()
@@ -75,6 +92,8 @@ namespace Game
         {
             logger.Log($"Player {PhotonNetwork.LocalPlayer.NickName} joined {PhotonNetwork.CurrentRoom.Name} room");
             logger.Log($"{PhotonNetwork.MasterClient.NickName} is master client");
+
+            CheckPlayers();
         }
 
         public void OnJoinRandomFailed(short returnCode, string message)
@@ -96,6 +115,34 @@ namespace Game
         {
         }
 
+        public void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            logger.Log($"Player {newPlayer} entered the room");
+            CheckPlayers();
+        }
+
+        public void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            logger.Log($"Player {otherPlayer} left the room");
+            CheckPlayers();
+        }
+
+        public void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnMasterClientSwitched(Player newMasterClient)
+        {
+            logger.Log($"{newMasterClient.NickName} is master client now");
+        }
+
+        #endregion
     }
 }
 
