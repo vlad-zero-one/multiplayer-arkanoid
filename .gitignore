@@ -9,8 +9,6 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/Demos/
-/Examples/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -60,3 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Demos and Examples of oter packages
+**/Demos/
+**/Examples/
+**/Demos.meta
+**/Examples.meta
