@@ -42,6 +42,9 @@ namespace Game
         private void CheckPlayers()
         {
             isSecondPlayerConnected.Value = PhotonNetwork.CurrentRoom.PlayerCount == 2;
+
+            // FOR DEBUG PURPOSES UNCOMMENT FOR START GAME W/O 2ND PLAYER
+            //isSecondPlayerConnected.Value = true;
         }
 
         #region Interface Implementations
