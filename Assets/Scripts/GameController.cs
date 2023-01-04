@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DependencyInjection;
 using UniRx;
+using Photon.Pun;
 
 namespace Game
 {
@@ -39,7 +40,7 @@ namespace Game
                     y = Random.Range(0, 5)
                 };
 
-                PlayerSpawner.Spawn(pos);
+                PlayerSpawner.Spawn(PhotonNetwork.LocalPlayer.ActorNumber);
             }
         }
     }

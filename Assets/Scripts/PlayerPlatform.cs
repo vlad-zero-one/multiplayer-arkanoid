@@ -1,29 +1,46 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPlatform : MonoBehaviourPun
+namespace Game
 {
-    [SerializeField] private Text playerName;
-
-    private void Start()
+    public class PlayerPlatform : MonoBehaviourPun
     {
-        playerName.text = photonView.Owner.NickName;
-    }
+        [SerializeField] private Text playerName;
 
-    void Update()
-    {
-        if (photonView.IsMine)
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            SetName();
+        }
+
+        private void SetName()
+        {
+            playerName.text = photonView.Owner.NickName;
+        }
+
+        void Update()
+        {
+            if (photonView != null && photonView.IsMine)
             {
-                transform.position += Vector3.right;
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                transform.position += Vector3.left;
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    transform.position += Vector3.right;
+                }
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    transform.position += Vector3.left;
+                }
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    transform.position += Vector3.up;
+                }
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    transform.position += Vector3.down;
+                }
             }
         }
     }
