@@ -7,18 +7,23 @@ namespace Game
 {
     public class Ball : MonoBehaviourPun
     {
-        private Rigidbody2D rigidbody;
+        [SerializeField] private Rigidbody2D rigidbody;
+        [SerializeField] private Collider2D collider;
 
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            rigidbody = GetComponent<Rigidbody2D>();
-
-            rigidbody.AddForce(Vector2.down * 500);
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                collider.enabled = false;
+                Destroy(rigidbody);
+            }
+            else
+            {
+                rigidbody.AddForce(Vector2.down * 500);
+            }
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
 
         }

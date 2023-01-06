@@ -10,10 +10,17 @@ namespace Game
     public class PlayerPlatform : MonoBehaviourPun
     {
         [SerializeField] private Text playerName;
+        [SerializeField] private Collider2D collider;
+
 
         private void Start()
         {
             SetName();
+
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                collider.gameObject.SetActive(false);
+            }
         }
 
         private void SetName()

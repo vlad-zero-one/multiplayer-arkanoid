@@ -18,29 +18,10 @@ namespace Game
 
             PhotonNetwork.Instantiate(playerPlatformPrefab.name, position, Quaternion.identity);
 
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.Instantiate(ballPrefab.name, Vector2.zero, Quaternion.identity);
             }
-
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                StartCoroutine(DeleteBallPhysics());
-            }
-        }
-
-        private IEnumerator DeleteBallPhysics()
-        {
-            var ball = FindObjectOfType<Ball>();
-
-            while (ball == null)
-            {
-                yield return new WaitForSeconds(0.5f);
-                ball = FindObjectOfType<Ball>();
-            }
-
-            Destroy(ball.gameObject.GetComponent<Rigidbody2D>());
-            ball.gameObject.GetComponent<Collider2D>().enabled = false;
         }
     }
 }
