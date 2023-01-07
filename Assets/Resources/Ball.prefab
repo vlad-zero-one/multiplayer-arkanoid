@@ -117,6 +117,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 6062675399650873182}
   - {fileID: 936690634709803974}
   sceneViewId: 0
   InstantiationId: 0
@@ -146,7 +147,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 6062675399650873179}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 35ff3d8e1b352684185742722a53d9c8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
