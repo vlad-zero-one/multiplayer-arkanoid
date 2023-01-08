@@ -50,7 +50,7 @@ namespace Game
         private void Play()
         {
             connectionManager.JoinOrCreateRoom();
-            connectionManager.isSecondPlayerConnected.Subscribe(val => logger.Log("2PLAYERS " + val)).AddTo(disp);
+            //connectionManager.isSecondPlayerConnected.Subscribe(val => logger.Log("2PLAYERS " + val)).AddTo(disp);
 
             SceneManager.LoadScene(1);
         }

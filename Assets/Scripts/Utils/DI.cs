@@ -15,13 +15,10 @@ namespace DependencyInjection
         public static void Add<T>(T obj)
         {
             Injections[obj.GetType()] = obj;
-
-            UnityEngine.Debug.Log($"Added {typeof(T)} to the DI");
         }
 
         public static T Get<T>()
         {
-            UnityEngine.Debug.Log($"Get {typeof(T)} from the DI");
             var hasObject = Injections.TryGetValue(typeof(T), out object retVal);
 
             if (!hasObject)

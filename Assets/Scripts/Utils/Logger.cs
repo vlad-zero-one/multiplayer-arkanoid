@@ -22,13 +22,13 @@ public class Logger : MonoBehaviour
         logText.text = string.Empty;
     }
 
-    public void Log(string message)
+    public void Log<T>(T message)
     {
         if (this == null || gameObject == null || logText == null) return;
 
-        Debug.Log(message);
+        Debug.Log(message.ToString());
 
-        logText.text += message;
+        logText.text += message.ToString();
         logText.text += "\n";
     }
 }
